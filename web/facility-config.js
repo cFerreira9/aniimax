@@ -233,6 +233,12 @@ export const SEASONS = [
             { name: 'magic_pumpkin_lantern', facility: 'Crafting Table' },
             { name: 'memory_lantern', facility: 'Crafting Table' },
             { name: 'glowfruit_lantern_set', facility: 'Crafting Table' },
+            { name: 'sea_salt_roasted_pumpkin', facility: 'Claw Game Cooker' },
+            { name: 'candied_lanternfruit', facility: 'Pickling Jar' },
+            { name: 'magic_pumpkin_cake', facility: 'Blazing Stove' },
+            { name: 'gleam_fruit_nectar', facility: 'Bouncy Brew Keg' },
+            { name: 'golden_lantern_pumpkin_soup', facility: 'Simmering Pot' },
+            { name: 'honey_glazed_pumpkin_cup', facility: 'Blazing Stove' },
         ],
     },
 ];

@@ -221,6 +221,20 @@ export const SEASONS = [
             { name: 'umbral_sweet_and_spicy_sauce' },
         ],
     },
+    {
+        id: 'magical_wonder_night',
+        name: 'Magical Wonder Night',
+        currency: 'Weird Jelly Beans',
+        points: 'Whimsy Points',
+        minHomeLevel: 10,
+        // Both crops want a Sunlamp (Adequate) on a level 5 Farmland; the plots are planned with
+        // the lamp like any other crop that needs one.
+        recipeNotes: [
+            { name: 'magic_pumpkin_lantern', facility: 'Crafting Table' },
+            { name: 'memory_lantern', facility: 'Crafting Table' },
+            { name: 'glowfruit_lantern_set', facility: 'Crafting Table' },
+        ],
+    },
 ];
 
 // The event running now, or `null` between events, when no season reaches the page at all.

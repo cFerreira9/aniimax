@@ -98,7 +98,7 @@ pub fn load_unverified(data_dir: &Path) -> Result<Vec<(String, String)>, Box<dyn
 /// first. The last one is the current event. Adding a season is a CSV here, a line in this list,
 /// and a line in `SEASONS` in wasm.rs, which embeds the same files for the web build; a test
 /// keeps the two lists in step.
-pub const SEASONS: &[&str] = &["harvest_moon_festival"];
+pub const SEASONS: &[&str] = &["harvest_moon_festival", "magical_wonder_night"];
 
 /// The season running now: the last of [`SEASONS`].
 pub fn current_season() -> &'static str {
@@ -133,10 +133,14 @@ struct SeasonRow {
     #[serde(rename = "yield")]
     yield_amount: u32,
     facility_level: u32,
+    /// The growing environment a season crop needs, e.g. `Adequate` for a Sunlamp; blank for
+    /// anything that grows anywhere, and for recipes.
+    #[serde(default)]
+    environment: Option<String>,
 }
 
 /// Parses a season's recipes (columns `name, facility, raw_materials, required_amount, seed_cost,
-/// sell_value, points, production_time, workload, yield, facility_level`; see
+/// sell_value, points, production_time, workload, yield, facility_level, environment`; see
 /// [`crate::models::SeasonTerms`]). Crops are watered like any other; call
 /// [`crate::models::apply_watering`] on them.
 pub fn parse_season(csv_text: &str) -> Result<Vec<ProductionItem>, Box<dyn Error>> {
@@ -165,7 +169,7 @@ pub fn parse_season(csv_text: &str) -> Result<Vec<ProductionItem>, Box<dyn Error
             module_requirement: None,
             workload: row.workload,
             byproduct: None,
-            environment: None,
+            environment: row.environment.filter(|e| !e.trim().is_empty()),
             season: Some(crate::models::SeasonTerms {
                 points: row.points,
                 seed_cost: row.seed_cost.unwrap_or(0.0),

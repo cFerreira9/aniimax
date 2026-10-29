@@ -178,6 +178,7 @@ fn format_time(seconds: f64) -> String {
 /// a season is a line here and a line there.
 const SEASONS: &[(&str, &str)] = &[
     ("harvest_moon_festival", include_str!("../data/harvest_moon_festival.csv")),
+    ("magical_wonder_night", include_str!("../data/magical_wonder_night.csv")),
 ];
 
 /// One season's recipes, watered like everything else; empty if `id` names no season the build

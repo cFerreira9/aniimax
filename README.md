@@ -21,7 +21,7 @@ Updated for the full release, with a joint LP-based facility-allocation engine f
 - **Whole-Unit Realism**: Growers are rounded to whole plots and processors are dedicated to one recipe each, matching how the game actually works; only the Woodworking Bench and Chimney Kiln take turns between tiers, since each tier is made from the one below
 - **Level-Up Strategy**: Plans the soonest next RV level-up (Home Coins plus Wood Blocks and Mineral Sand, or from RV 7 the Woodworking Bench and Chimney Kiln items it costs), counting what you already have, then earns as many Home Coins as that pace allows; RV 2 to 20
 - **Priorities Strategy**: Rank what you want (Home Coins, Aniimo EXP, Aniipods, Wood Blocks, Mineral Sand, and Harvest Moon Points while a festival runs) and switch off what you don't; each one is maximized in turn, keeping what the ones above it reached, and Home Coins take whatever is left
-- **Seasons**: a limited-time event puts its own crops and recipes on the page from its RV level (Recipe Note ones once you tick them), counts its points on everything sold, and shows how much of its currency the seeds use; the currency is taken as unlimited. One event runs at a time. An event that has ended keeps its data and stays in the recipe reference, marked as ended, so its numbers remain available; no event is running now, the Harvest Moon Festival having finished
+- **Seasons**: a limited-time event puts its own crops and recipes on the page from its RV level (Recipe Note ones once you tick them), counts its points on everything sold, and shows how much of its currency the seeds use; the currency is taken as unlimited. One event runs at a time. An event that has ended keeps its data and stays in the recipe reference, marked as ended, so its numbers remain available. Magical Wonder Night is running now (Magic Pumpkin and Memory Lanternfruit under a Sunlamp, Weird Jelly Beans and Whimsy Points); the Harvest Moon Festival before it has finished
 - **Growing Environments**: Heat Furnace, Cooling Unit and Sunlamp layouts are planned with the plots, including a crop grown outside its environment at the slower rate, and a Heat Furnace and Cooling Unit placed so their areas overlap and add up to a third temperature between them
 - **Watering**: A plot is watered twice as it grows, each watering taking an eighth off its full-speed time
 - **Recipe Reference Page**: Every recipe in the game data, browsable by facility, independent of what you own
@@ -633,7 +633,8 @@ Production data is stored in CSV files in the `data/` directory:
 - `pickling_jar.csv` - Sauces, vinegars and candied fruit
 - `joy_wheel_loom.csv` - Thread, yarn and fabric
 - `woodworking_bench.csv`, `chimney_kiln.csv` - RV level-up materials from Wood Blocks and Mineral Sand (no sale value)
-- `harvest_moon_festival.csv` - The Harvest Moon Festival's crops and recipes, with their seed cost in Moonray Wheat and Harvest Moon Points; the event is over, so the data is kept for reference only. One such file per season, named after its id
+- `magical_wonder_night.csv` - The current event's crops and recipes, with their seed cost in Weird Jelly Beans and Whimsy Points
+- `harvest_moon_festival.csv` - The Harvest Moon Festival's, from the event before; it is over, so the data is kept for reference only. One such file per season, named after its id
 
 Farmland, Woodland, Mine, Well, Tidewhisper Sandcastle, Dewy House, Carousel Mill, Crafting Table, Claw Game Cooker, Jukebox Dryer, Simmering Pot, Phonolfactory Table, Bouncy Brew Keg, Joy Wheel Loom, Blazing Stove, Pickling Jar, Woodworking Bench and Chimney Kiln are verified in game. The other three facilities' recipes haven't been checked in game yet: `data/unverified.csv` lists them, the recipe list marks each one, and a plan lists any it relies on.
 
@@ -646,7 +647,7 @@ To add new production items, edit the appropriate CSV file. The format varies by
 A limited-time event is a data file plus three one-line registrations, which a test holds together
 (`tests/season.test.mjs`, "the web, data.rs and wasm.rs all name the same seasons"):
 
-1. `data/<id>.csv` with the event's crops and recipes: `name, facility, raw_materials, required_amount, seed_cost, sell_value, points, production_time, workload, yield, facility_level`. A crop has a `seed_cost` in the event's currency and a `production_time`; a recipe has `raw_materials` and a `workload`.
+1. `data/<id>.csv` with the event's crops and recipes: `name, facility, raw_materials, required_amount, seed_cost, sell_value, points, production_time, workload, yield, facility_level, environment`. A crop has a `seed_cost` in the event's currency and a `production_time`, and names a growing environment if it needs one; a recipe has `raw_materials` and a `workload`. A worked recipe also needs its Aniimo ability in `data/aniimo_requirements.csv`, and a crop its jobs in `data/grower_steps.csv`, like any other item.
 2. The id in `SEASONS` in `src/data.rs` (the CLI and tests read the file) and in `src/wasm.rs` (the web build embeds it), both oldest first.
 3. An entry in `SEASONS` in `web/facility-config.js` with the event's name, currency, points, the RV level it unlocks at, and the recipes that need a Recipe Note. Leave `over` unset while it runs.
 
